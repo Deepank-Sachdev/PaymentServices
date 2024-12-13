@@ -15,7 +15,7 @@ public class PaymentGatewaySelector {
     }
     public PaymentGateway getPaymentGateway() {
         // Logic to select
-        return razorpayPaymentGateway;
-//        return stripePaymenGateway;
+//        return razorpayPaymentGateway;
+        return stripePaymenGateway;
     }
 }

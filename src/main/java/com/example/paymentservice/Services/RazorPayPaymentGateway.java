@@ -1,5 +1,6 @@
 package com.example.paymentservice.Services;
 
+import com.example.paymentservice.models.Order;
 import com.razorpay.PaymentLink;
 import org.json.JSONObject;
 import com.razorpay.Payment;
@@ -11,7 +12,7 @@ import org.springframework.stereotype.Service;
 public class RazorPayPaymentGateway implements PaymentGateway {
 
     @Override
-    public String GeneratePaymentLink() {
+    public String GeneratePaymentLink(Order order) {
         try{
             RazorpayClient razorpay = new RazorpayClient("rzp_test_sg_PVg0keFyXnWqen", "mejLCFY56eQRa3WUvpjvLMyT");
             JSONObject paymentLinkRequest = new JSONObject();

@@ -1,6 +1,7 @@
 package com.example.paymentservice.Services;
 
 
+import com.example.paymentservice.models.Order;
 import com.stripe.Stripe;
 import com.stripe.model.PaymentLink;
 import com.stripe.model.Price;
@@ -14,9 +15,10 @@ public class StripePaymenGateway implements PaymentGateway {
     private String apiKey = "sk_test_51QU1oKHXC1Hjiiy7viMEzS47rBZ8xq3k4k4CL1UbMNyZevx87GvpD17GoiiQzyudJGffGP1aM5KoA5XsNwaA1LHO00Ccg5tQsj";
 
     @Override
-    public String GeneratePaymentLink() {
+    public String GeneratePaymentLink(Order order) {
         try{
             Stripe.apiKey = this.apiKey;
+            Price price = getPrice(order);
 
             PaymentLinkCreateParams params =
                     PaymentLinkCreateParams.builder()
@@ -37,12 +39,12 @@ public class StripePaymenGateway implements PaymentGateway {
             throw new RuntimeException(ex.getMessage());
         }
     }
-    private Price getPrice(){
+    private Price getPrice(Order order) {
         try {
             PriceCreateParams params =
                     PriceCreateParams.builder()
                             .setCurrency("inr")
-                            .setUnitAmount(5000L)
+                            .setUnitAmount(order.getAmount())
 //                            .setRecurring(
 //                                    PriceCreateParams.Recurring.builder()
 //                                            .setInterval(PriceCreateParams
@@ -53,7 +55,7 @@ public class StripePaymenGateway implements PaymentGateway {
                                     PriceCreateParams
                                             .ProductData
                                             .builder()
-                                            .setName("iPhone 16")
+                                            .setName(order.getOrderId())
                                             .build()
                             )
                             .build();
